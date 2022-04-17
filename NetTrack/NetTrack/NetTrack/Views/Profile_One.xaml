@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:behavior="clr-namespace:NetTrack.Behaviours"
+             x:Class="NetTrack.Views.Profile_One">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Please enter the following details, to build your profile."
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Subtitle"
+                FontAttributes="Bold"
+                LineBreakMode="WordWrap"    
+                />
+
+            <Image Source="profile_one.png" />
+            <Image Source="profile_one_bar.png" />
+            <Label Text="Step 1/4" HorizontalOptions="Center" Margin="0, 5, 0, 0" FontAttributes="Bold"/>
+
+            <Label Text="Personal Information" FontSize="Medium"/>
+
+
+            <FlexLayout Direction="Row"
+                AlignItems="Center"
+                JustifyContent="SpaceBetween">
+                <Entry Placeholder="Firstname" WidthRequest="190" HorizontalTextAlignment="Center"/>
+                <Entry Placeholder="Lastname" WidthRequest="190" HorizontalTextAlignment="Center"/>
+
+            </FlexLayout>
+
+            <Entry Placeholder="Email" WidthRequest="150" />
+            <Entry Text="{Binding Phone}" Placeholder="Phone Number" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <behavior:PhoneNumberMaskBehavior x:Name="PhoneMask" />
+                    <behavior:EntryLengthValidator MaxLength="12"/>
+                </Entry.Behaviors>
+            </Entry>
+
+            <Picker x:Name="picker" Title="Country" TextColor="Black" ></Picker>
+
+          
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
