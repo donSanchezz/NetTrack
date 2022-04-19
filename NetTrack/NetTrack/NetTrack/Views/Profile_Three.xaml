@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fontawesome="clr-namespace:FontAwesome"  
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:local="clr-namespace:NetTrack.ViewModels"  
+             xmlns:model="clr-namespace:NetTrack.Models"
+             x:DataType="local:ProfileThreeViewModel"
+             x:Class="NetTrack.Views.Profile_Three">
+
+
+    <ContentPage.BindingContext>
+        <local:ProfileThreeViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red"></Setter>
+            </Style>
+            <Style x:Key="ValidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Green"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Please enter your biometric"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Subtitle"
+                FontAttributes="Bold"
+                LineBreakMode="WordWrap"    
+                />
+
+            <Label Text="information to add to your profile."
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Subtitle"
+                FontAttributes="Bold"
+                LineBreakMode="WordWrap"    
+                />
+
+
+            <Image Source="profile_three.png" HeightRequest="240" />
+            <Image Source="profile_three_bar.png" />
+            <Label Text="Step 3/3" HorizontalOptions="Center" Margin="0, 5, 0, 0" FontAttributes="Bold"/>
+
+            <Label Text="Emergency Contact Information" FontSize="Medium"/>
+
+            <StackLayout>
+                <FlexLayout  AlignItems="Center" JustifyContent="SpaceBetween">
+                    <Label Text="Click to add a emergency contact" FontSize="Body"></Label>
+                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.Plus}" FontFamily="FAB" FontSize="Large" Margin="10,5,0,5" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                NumberOfTapsRequired="1"
+                                Command="{Binding AddContactCommand}">
+                                
+                            </TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                </FlexLayout>
+
+
+                <RefreshView x:DataType="local:ProfileThreeViewModel" Command="{Binding LoadContactsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                    <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Contacts}"
+                SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="10" x:DataType="model:Contact">
+                                    <FlexLayout Direction="Row" AlignItems="Center" >
+                                        <Label Text="{Binding FirstName}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="Medium" />
+                                        <Label Text="{Binding LastName}" 
+                                        Margin="5,0,0,0"       
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        FontSize="Medium" />
+                                    </FlexLayout>
+                                    <Label Text="{Binding Email}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProfileThreeViewModel}}, Path=ContactTapped}"		
+                                CommandParameter="{Binding .}">
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </StackLayout>
+
+           
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

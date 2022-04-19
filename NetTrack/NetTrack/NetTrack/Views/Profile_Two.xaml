@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:viewModels="clr-namespace:NetTrack.ViewModels" x:DataType="viewModels:SignupViewModel"
+             x:Class="NetTrack.Views.Profile_Two">
+
+
+
+
+    <ContentPage.BindingContext>
+        <viewModels:SignupViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red"></Setter>
+            </Style>
+            <Style x:Key="ValidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Green"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Please enter your biometric"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Subtitle"
+                FontAttributes="Bold"
+                LineBreakMode="WordWrap"    
+                />
+            
+            <Label Text="information to add to your profile."
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Subtitle"
+                FontAttributes="Bold"
+                LineBreakMode="WordWrap"    
+                />
+
+            
+
+            <Image Source="profile_two.png" HeightRequest="240" />
+            <Image Source="profile_two_bar.png" />
+            <Label Text="Step 2/3" HorizontalOptions="Center" Margin="0, 5, 0, 0" FontAttributes="Bold"/>
+
+            <Label Text="Biometric Information" FontSize="Medium"/>
+            <ScrollView>
+                <StackLayout>
+                   
+
+
+            <Frame HasShadow="True"  CornerRadius="8" Padding="8" Margin="15, 15">
+                <StackLayout>
+                    <Label Text="Height" FontSize="Subtitle" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <Label x:Name="displayHeight"
+                     Text=""
+                     HorizontalOptions="Center"
+                    FontAttributes="Bold"
+                    FontSize="Large"/>
+
+                    <Slider Maximum="170"
+                     ValueChanged="OnSliderValueChanged" 
+                    Value="85"
+                     />
+
+                </StackLayout>
+            </Frame>
+
+            <Label Text="Birthday" FontSize="Subtitle" Margin="10, 5, 0, 0"/>
+            <FlexLayout Direction="Row" AlignItems="Center" JustifyContent="SpaceEvenly">
+             <Picker x:Name="dayPicker" SelectedItem="{Binding user.day}" WidthRequest="130" Title="Day" TextColor="Black" />
+             <Picker x:Name="monthPicker" SelectedItem="{Binding user.month}" WidthRequest="130" Title="Month" TextColor="Black" />
+             <Picker x:Name="yearPicker" SelectedItem="{Binding user.year}" WidthRequest="130" Title="Year" TextColor="Black" />
+            </FlexLayout>
+
+            <Picker x:Name="bodyPicker" SelectedItem="{Binding user.body}" Margin="5, 5" Title="Body Type" TextColor="Black" />
+            <Picker x:Name="skinPicker" SelectedItem="{Binding user.skin}" Margin="5, 5" Title="Skin Complexion" TextColor="Black" />
+            <Picker x:Name="eyePicker" SelectedItem="{Binding user.eye}" Margin="5, 5" Title="Eye Color" TextColor="Black" />
+                </StackLayout>
+            </ScrollView>
+
+            <Button Text="Continue"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                WidthRequest="150"   
+                CornerRadius="5"
+                Clicked="Submit"
+                    />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

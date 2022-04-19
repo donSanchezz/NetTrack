@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:viewmodels="clr-namespace:NetTrack.ViewModels" x:DataType="viewmodels:NewContactViewModel"
+             x:Class="NetTrack.Views.NewContactPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red"></Setter>
+            </Style>
+            <Style x:Key="ValidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Green"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame HasShadow="True"  CornerRadius="8" Padding="8">
+                <StackLayout>
+                    <FlexLayout Direction="Row" AlignItems="Center" JustifyContent="SpaceBetween">
+                        <Entry x:Name="fname" Text="{Binding FirstName, Mode=TwoWay}" Placeholder="Firstname" WidthRequest="190" HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                     ValidStyle="{StaticResource ValidEntryStyle}"
+                     MinimumLength="3"
+                     MaximumLength="50"
+                     Flags="ValidateOnValueChanging"       
+                     />
+                            </Entry.Behaviors>
+                        </Entry>
+
+                        <Entry x:Name="lname" Text="{Binding LastName, Mode=TwoWay}" Placeholder="Lastname" WidthRequest="190" HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior
+                         InvalidStyle="{StaticResource InvalidEntryStyle}"
+                         ValidStyle="{StaticResource ValidEntryStyle}"
+                        MinimumLength="3"
+                         MaximumLength="50"
+                         Flags="ValidateOnValueChanging"     
+                         />
+                            </Entry.Behaviors>
+                        </Entry>
+
+                    </FlexLayout>
+
+                    <Entry x:Name="email" Text="{Binding Email, Mode=TwoWay}"  Placeholder="Email Address" WidthRequest="150">
+                            <Entry.Behaviors>
+                                <xct:EmailValidationBehavior
+                     DecorationFlags="Trim"
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    Flags="ValidateOnValueChanging"  
+                    />
+                            </Entry.Behaviors>
+                        </Entry>
+                    <Entry x:Name="phone" Text="{Binding Phone, Mode=TwoWay}" Placeholder="Phone Number" Keyboard="Telephone">
+                            <Entry.Behaviors>
+                                <xct:MultiValidationBehavior
+                     x:Name="MultiValidation"
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                     ValidStyle="{StaticResource ValidEntryStyle}"
+                     Flags="ValidateOnValueChanging"  >
+
+                                    <xct:TextValidationBehavior
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                      ValidStyle="{StaticResource ValidEntryStyle}"
+                     MinimumLength="12"
+                     MaximumLength="12"
+                     Flags="ValidateOnValueChanging"  
+                     />
+
+                                </xct:MultiValidationBehavior>
+
+                                <xct:MaskedBehavior 
+                     Mask="AAA-AAA-AAAA" 
+                     UnMaskedCharacter="A"
+                    />
+                            </Entry.Behaviors>
+                        </Entry>
+
+                    <Editor x:Name="message" Text="{Binding Message, Mode=TwoWay}"  Placeholder="Message to be sent in case of an emergency" WidthRequest="190">
+                            <Editor.Behaviors>
+                                <xct:TextValidationBehavior
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                     ValidStyle="{StaticResource ValidEntryStyle}"
+                     MinimumLength="3"
+                     MaximumLength="500"
+                     Flags="ValidateOnValueChanging"       
+                     />
+                            </Editor.Behaviors>
+                        </Editor>
+
+                    <FlexLayout Direction="Row" AlignItems="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Primary Contact" FontSize="Medium"></Label>
+                        <Switch x:Name="primary" IsToggled="{Binding Primary}"/>
+                    </FlexLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                        <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+                    </StackLayout>
+                </StackLayout>
+               
+                
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

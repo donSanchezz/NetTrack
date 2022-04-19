@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NetTrack.Views.ContactDetailPage">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Frame HasShadow="true" CornerRadius="8">
+                <StackLayout>
+                    <FlexLayout Direction="Row" AlignItems="Start">
+                <Label Text="{Binding FirstName}" FontSize="20" />
+                <Label Text="{Binding LastName}"  FontSize="20" Margin="10,0,0,0" />
+            </FlexLayout>
+
+            <Label Text="{Binding Email}" FontSize="20"></Label>
+            <Label Text="{Binding Phone}" FontSize="20"></Label>
+            <Label Text="{Binding Message}" FontSize="20" LineBreakMode="WordWrap"></Label>
+            <Switch x:Name="primary" IsVisible="False" IsToggled="{Binding Primary}"/>
+            <Label x:Name="PrimaryLbl" Text="This user is your primary contact" IsVisible="False" FontSize="20"></Label>
+            <Label x:Name="NotPrimaryLbl" Text="This user is not your primary contact" IsVisible="False" FontSize="20"></Label>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
