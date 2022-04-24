@@ -1,6 +1,8 @@
-﻿using NetTrack.ViewModels;
+﻿using NetTrack.Models;
+using NetTrack.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +16,12 @@ namespace NetTrack.Views
     public partial class Profile_Three : ContentPage
     {
         ProfileThreeViewModel _viewModel;
-        public Profile_Three()
+        public User user;
+        public Profile_Three(object user)
         {
             InitializeComponent();
 
+            this.user = (User)user.GetType().GetProperty("user").GetValue(user, null);
             BindingContext = _viewModel = new ProfileThreeViewModel();
         }
 
@@ -25,6 +29,14 @@ namespace NetTrack.Views
         {
             base.OnAppearing();
             _viewModel.OnAppearing();
+        }
+
+        private async void Submit(object sender, EventArgs e)
+        {
+            user.contacts = _viewModel.Contacts.ToList();
+
+            await _viewModel.Regiter(user);
+            Debug.WriteLine(user);
         }
     }
 }

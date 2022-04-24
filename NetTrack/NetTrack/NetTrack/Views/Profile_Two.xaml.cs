@@ -79,7 +79,7 @@ namespace NetTrack.Views
             }
 
           
-            Navigation.PushAsync(new Profile_Three());
+            Navigation.PushAsync(new Profile_Three(BindingContext));
 
         }
     }

@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
+
 
 namespace NetTrack.Models
 {
     public class User
     {
 
+        [JsonIgnore]
         public int Id { get; set; }
         public string fname { get; set; }
         public string lname { get; set; }
@@ -20,5 +23,7 @@ namespace NetTrack.Models
         public string body { get; set; }
         public string skin { get; set; }
         public string eye { get; set; }
+
+        public List<Contact> contacts { get; set; }
     }
 }

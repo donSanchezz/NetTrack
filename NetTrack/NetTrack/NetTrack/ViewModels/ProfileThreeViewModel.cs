@@ -1,9 +1,11 @@
 ﻿using NetTrack.Models;
 using NetTrack.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -19,6 +21,7 @@ namespace NetTrack.ViewModels
         public Command AddContactCommand { get; }
         public Command<Contact> ContactTapped { get; }
 
+        private readonly HttpClient _httpClient = new HttpClient();
         public ProfileThreeViewModel()
         {
             Title = "Browse";
@@ -82,5 +85,31 @@ namespace NetTrack.ViewModels
             // This will push the ContactDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(ContactDetailPage)}?{nameof(ContactDetailViewModel.ItemId)}={contact.id}");
         }
+        
+
+        public async Task Regiter(User user)
+        {
+            try
+            {
+                var jsonObject = JsonConvert.SerializeObject(user);
+
+                StringContent content = new StringContent(jsonObject, UnicodeEncoding.UTF8, "application/json");
+
+
+                var response = await _httpClient.PostAsync("http://10.0.2.2:5212/register", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+      
+        }
+
+        
     }
 }
