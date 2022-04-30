@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace NetTrack.Services
 {
-    public class MockDataStore : IDataStore<Contact>
+    public class MockDataStore : IDataStore<Contact>, IUserStore<User>
     {
         readonly List<Contact> contacts;
-        
+        public User user { get; set; }
+
         public MockDataStore()
         {
             this.contacts = new List<Contact>();
+            this.user = new User();
         }
         
         public async Task<bool> AddItemAsync(Contact item)
@@ -47,6 +49,27 @@ namespace NetTrack.Services
         public async Task<IEnumerable<Contact>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(contacts);
+        }
+
+        public Task<bool> AddUser(User item)
+        {
+            this.user = item;
+            return Task.FromResult(true);
+        }
+        
+        public User GetUser(bool forceRefresh = false)
+        {
+            try
+            {
+                Console.WriteLine(this.user);
+                return user;
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
         }
     }
 }

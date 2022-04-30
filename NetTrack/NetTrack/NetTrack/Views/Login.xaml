@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:local="clr-namespace:NetTrack.ViewModels"
+             x:DataType="local:LoginViewModel"
+             x:Class="NetTrack.Views.Login"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             Shell.FlyoutItemIsVisible="False">
+
+
+    <ContentPage.BindingContext>
+        <local:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red"></Setter>
+            </Style>
+            <Style x:Key="ValidEntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Green"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <Image Source="login_main.png" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
+
+            <Frame HasShadow="True"  CornerRadius="8" Padding="8" Margin="15, 15" AbsoluteLayout.LayoutBounds="0.5,0.8,0.9,0.36" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout>
+                    <Label Text="Email" FontSize="Subtitle" HorizontalOptions="Start" VerticalOptions="Center" Margin="2,0,0,0" />
+                    <Entry x:Name="fname" Text="{Binding details.email}" WidthRequest="190" HeightRequest="40" HorizontalTextAlignment="Start">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                     ValidStyle="{StaticResource ValidEntryStyle}"
+                     MinimumLength="3"
+                     MaximumLength="50"
+                     Flags="ValidateOnValueChanging"       
+                     />
+                        </Entry.Behaviors>
+
+                    </Entry>
+
+                    <Label Text="Password" FontSize="Subtitle" HorizontalOptions="Start" VerticalOptions="Center" Margin="2,0,0,0" />
+                    <Entry x:Name="passwordEntry" Text="{Binding details.password}" WidthRequest="190" HeightRequest="40" IsPassword="True">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                     InvalidStyle="{StaticResource InvalidEntryStyle}"
+                     ValidStyle="{StaticResource ValidEntryStyle}"
+                     MinimumLength="6"
+                     MaximumLength="50"
+                     Flags="ValidateOnValueChanging"  
+                     />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <FlexLayout JustifyContent="SpaceBetween">
+                        <FlexLayout  WidthRequest="190">
+                            <CheckBox IsChecked="false" Color="MediumPurple" />
+                            <Label Text="Remember Me" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Margin="2,1.5,0,0" />
+                        </FlexLayout>
+                        <Label Text="Forgot Password?" TextDecorations="Underline" FontSize="Small" HorizontalOptions="EndAndExpand" VerticalOptions="Center" Margin="0,2.5,0,0" />
+
+                    </FlexLayout>
+
+
+                    <FlexLayout FlowDirection="LeftToRight" Margin="0,10,0,0" JustifyContent="SpaceBetween">
+                        <Button Text="Login"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Start"
+                WidthRequest="200"   
+                CornerRadius="20" 
+                Clicked="Login_Clicked"               
+                    />
+
+                        <Button Text="Signup"
+                            BackgroundColor="White"
+                            BorderColor="MediumPurple"
+                            BorderWidth="1"
+                            TextColor="Black"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Start"
+                WidthRequest="120"   
+                CornerRadius="20" 
+                Clicked="Signup"                
+                    />
+                    </FlexLayout>
+
+                </StackLayout>
+            </Frame>
+
+        </AbsoluteLayout>
+
+
+
+
+    </ContentPage.Content>
+</ContentPage>

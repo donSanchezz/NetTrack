@@ -11,6 +11,7 @@ namespace NetTrack.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Contact> DataStore => DependencyService.Get<IDataStore<Contact>>();
+        public IUserStore<User> UserStore => DependencyService.Get<IUserStore<User>>();
 
         bool isBusy = false;
         public bool IsBusy

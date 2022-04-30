@@ -36,7 +36,6 @@ namespace NetTrack.Views
             user.contacts = _viewModel.Contacts.ToList();
 
             await _viewModel.Regiter(user);
-            Debug.WriteLine(user);
         }
     }
 }

@@ -97,11 +97,15 @@ namespace NetTrack.ViewModels
 
 
                 var response = await _httpClient.PostAsync("http://10.0.2.2:5212/register", content);
+                var contentResponse = await response.Content.ReadAsStringAsync();
+                var RegisteredUser = JsonConvert.DeserializeObject<User>(contentResponse);
+                await UserStore.AddUser(RegisteredUser);
                 if (!response.IsSuccessStatusCode)
                 {
                     await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
                     return;
                 }
+                await Shell.Current.GoToAsync("//HomePage");
             }
             catch (Exception ex)
             {

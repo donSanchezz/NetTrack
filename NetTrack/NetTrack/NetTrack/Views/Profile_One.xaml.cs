@@ -32,35 +32,32 @@ namespace NetTrack.Views
             {
                 DisplayAlert("Oops", "Please fill in all the fields", "OK");
             }
-            else
+            else if (fname.Text.Length < 3 || fname.Text.Length < 3)
             {
-                if (fname.Text.Length < 3 || fname.Text.Length < 3)
-                {
-                    DisplayAlert("Oops", "Please enter a valid name", "OK");
-                }
-
-                if (!email.Text.Contains("@") && !email.Text.Contains("."))
-                {
-                    DisplayAlert("Oops", "Please enter a valid email", "OK");
-                }
-
-                if (phone.Text.Length < 12)
-                {
-                    DisplayAlert("Oops", "Please enter a valid phone number", "OK");
-                }
-                
-                if (passwordEntry.Text == password.Text)
-                {
-                    Navigation.PushAsync(new Profile_Two(BindingContext));
-                }
-                else
-                {
-                    DisplayAlert("Oops", "Passwords do not match", "OK");
-                }
+                DisplayAlert("Oops", "Please enter a valid name", "OK");
             }
 
-            Navigation.PushAsync(new Profile_Two(BindingContext));
+            else if (!email.Text.Contains("@") && !email.Text.Contains("."))
+            {
+                DisplayAlert("Oops", "Please enter a valid email", "OK");
+            }
 
+            else if (phone.Text.Length < 12)
+            {
+                DisplayAlert("Oops", "Please enter a valid phone number", "OK");
+            }
+
+            else if (passwordEntry.Text != password.Text)
+            {
+                DisplayAlert("Oops", "Passwords do not match", "OK");
+            }
+            else
+            {
+                Navigation.PushAsync(new Profile_Two(BindingContext));
+            }
         }
+
+
+
     }
 }

@@ -138,6 +138,3 @@
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
-
-<!--<behavior:PhoneNumberMaskBehavior x:Name="PhoneMask" />
-<behavior:EntryLengthValidator MaxLength="12"/>-->

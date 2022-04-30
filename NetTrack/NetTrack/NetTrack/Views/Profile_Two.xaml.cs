@@ -76,11 +76,10 @@ namespace NetTrack.Views
             if (dayPicker.SelectedItem == null || monthPicker.SelectedItem == null || yearPicker.SelectedItem == null || bodyPicker.SelectedItem == null || skinPicker.SelectedItem == null || eyePicker.SelectedItem == null)
             {
                 DisplayAlert("Oops", "Please fill in all the fields", "OK");
+            }else
+            {
+                Navigation.PushAsync(new Profile_Three(BindingContext));
             }
-
-          
-            Navigation.PushAsync(new Profile_Three(BindingContext));
-
         }
     }
 
