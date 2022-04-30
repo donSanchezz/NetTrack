@@ -28,7 +28,6 @@
                 </Setter>
             </Style>
 
-
             <OnPlatform x:TypeArguments="x:String" 
                  x:Key="FontAwesomeBrands">
                 <On Platform="Android" 

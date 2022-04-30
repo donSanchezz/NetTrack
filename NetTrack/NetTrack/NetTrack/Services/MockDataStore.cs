@@ -6,55 +6,70 @@ using System.Threading.Tasks;
 
 namespace NetTrack.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Contact>, IUserStore<User>
     {
-        readonly List<Item> items;
+        readonly List<Contact> contacts;
+        public User user { get; set; }
 
         public MockDataStore()
         {
-            items = new List<Item>()
-            {
-                new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." }
-            };
+            this.contacts = new List<Contact>();
+            this.user = new User();
         }
-
-        public async Task<bool> AddItemAsync(Item item)
+        
+        public async Task<bool> AddItemAsync(Contact item)
         {
-            items.Add(item);
+            contacts.Add(item);
 
             return await Task.FromResult(true);
         }
-
-        public async Task<bool> UpdateItemAsync(Item item)
+        
+        public async Task<bool> UpdateItemAsync(Contact item)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
+            var oldItem = contacts.Where((Contact arg) => arg.id == item.id).FirstOrDefault();
+            contacts.Remove(oldItem);
+            contacts.Add(item);
 
             return await Task.FromResult(true);
         }
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-            items.Remove(oldItem);
-
+            var oldItem = contacts.Where((Contact arg) => arg.id == id).FirstOrDefault();
+            contacts.Remove(oldItem);
+            
             return await Task.FromResult(true);
         }
-
-        public async Task<Item> GetItemAsync(string id)
+        
+        public async Task<Contact> GetItemAsync(string id)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(contacts.FirstOrDefault(s => s.id == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Contact>> GetItemsAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(items);
+            return await Task.FromResult(contacts);
+        }
+
+        public Task<bool> AddUser(User item)
+        {
+            this.user = item;
+            return Task.FromResult(true);
+        }
+        
+        public User GetUser(bool forceRefresh = false)
+        {
+            try
+            {
+                Console.WriteLine(this.user);
+                return user;
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
         }
     }
 }

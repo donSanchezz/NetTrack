@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetTrack.Services;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,7 +10,8 @@ namespace NetTrack.Views
     {
         public AboutPage()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            DependencyService.Get<IStatusBar>().HideStatusBar();
         }
     }
 }
