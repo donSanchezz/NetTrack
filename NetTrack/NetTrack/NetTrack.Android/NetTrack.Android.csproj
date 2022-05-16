@@ -85,6 +85,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
+    <PackageReference Include="Xamarin.Forms.Maps">
+      <Version>5.0.0.2401</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -98,6 +101,7 @@
     <AndroidAsset Include="Assets\fasolid.otf" />
     <AndroidAsset Include="Assets\fabrands.otf" />
     <AndroidAsset Include="Assets\83301-woman-e-mail-security.json" />
+    <AndroidAsset Include="Assets\alert_icon.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

@@ -42,15 +42,15 @@ namespace NetTrack.ViewModels
 
 
                 var response = await _httpClient.PostAsync("http://10.0.2.2:5212/login", content);
-                
-                var contentResponse = await response.Content.ReadAsStringAsync();
-                var user = JsonConvert.DeserializeObject<User>(contentResponse);
-                await UserStore.AddUser(user);
                 if (!response.IsSuccessStatusCode)
                 {
                     await Application.Current.MainPage.DisplayAlert("Oops", "Invalid credentials", "OK");
                     return;
                 }
+                var contentResponse = await response.Content.ReadAsStringAsync();
+                var user = JsonConvert.DeserializeObject<User>(contentResponse);
+                await UserStore.AddUser(user);
+               
                 await Shell.Current.GoToAsync("//HomePage");
             }
             catch (Exception ex)

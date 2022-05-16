@@ -2,22 +2,90 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:fontawesome="clr-namespace:FontAwesome"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewModels="clr-namespace:NetTrack.ViewModels"
+             xmlns:viewModels="clr-namespace:NetTrack.ViewModels" xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" xmlns:models="clr-namespace:NetTrack.Models"
              x:DataType="viewModels:HomePageViewModel"
              x:Class="NetTrack.Views.HomePage"
+             NavigationPage.HasNavigationBar="False" 
+             
 >
+    <Shell.TitleView>
+        <FlexLayout>
+            <Label Text="{x:Static fontawesome:FontAwesomeIcons.User}" TextColor="White" FontFamily="FAB" FontSize="Large" Margin="10,18,5,5" ></Label>
+            <Label Text="{Binding user.fname}" TextColor="White" Margin="0,0,5,0"  VerticalTextAlignment="Center" FontAttributes="Bold" ></Label>
+            <Label Text="{Binding user.lname}" TextColor="White" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+         
+        </FlexLayout>
+    </Shell.TitleView>
 
     <ContentPage.BindingContext>
         <viewModels:HomePageViewModel />
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <FlexLayout>
-                <Label Text="{x:Static fontawesome:FontAwesomeIcons.Plus}" FontFamily="FAB" FontSize="Large" Margin="10,5,0,5" ></Label>
-                <Label Text="{Binding user.fname}" ></Label>
-            </FlexLayout>
+            <lottie:AnimationView
+                x:Name="animationView"
+                Animation="alert_icon.json"
+                AutoPlay="True"
+                AnimationSource="AssetOrBundle"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Command="{Binding AlertPressed}"
+                HeightRequest="10"
+                />
+            <Label Text="Tap in case of an emergency"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  FontAttributes="Bold"></Label>
 
+            <CollectionView ItemsSource="{Binding Protectees }" 
+                      ItemsLayout="HorizontalList"
+                      HeightRequest="50" 
+                      
+                      SelectionMode="Single"
+                      SelectedItem="{Binding SelectedProtectee}"
+                      SelectionChangedCommand="{Binding ItemTappedCommand, Mode=TwoWay}"     
+                      >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Contact">
+                        <Grid>
+                            <Frame x:Name="{Binding Active}" HasShadow="True" BorderColor="Black" CornerRadius="3" WidthRequest="150"  Margin="0,0,5,0" >
+                                <StackLayout>
+                                    <FlexLayout JustifyContent="Center">
+                                        <Label Text="{x:Static fontawesome:FontAwesomeIcons.CircleUser}" FontFamily="FAB" FontSize="Large" Margin="0,0,5,0" >
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Active}" Value="True">
+                                                    <Setter Property="TextColor" Value="#3CB371" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Active}" Value="False">
+                                                    <Setter Property="TextColor" Value="#B22222" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label Text="{Binding FirstName}" FontAttributes="Bold" Margin="0,0,5,0"   ></Label>
+                                        <Label Text="{Binding LastName}"   FontAttributes="Bold"></Label>
+                                    </FlexLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+            <maps:Map x:Name="map" IsShowingUser="true" MapType="Street"  >
+                <x:Arguments>
+                    <maps:MapSpan>
+                        <x:Arguments>
+                            <maps:Position>
+                                <x:Arguments>
+                                    <x:Double>17.9750611</x:Double>
+                                    <x:Double>-76.7925867</x:Double>
+                                </x:Arguments>
+                            </maps:Position>
+                            <x:Double>0.01</x:Double>
+                            <x:Double>0.01</x:Double>
+                        </x:Arguments>
+                    </maps:MapSpan>
+                </x:Arguments>
+
+            </maps:Map>
 
         </StackLayout>
     </ContentPage.Content>

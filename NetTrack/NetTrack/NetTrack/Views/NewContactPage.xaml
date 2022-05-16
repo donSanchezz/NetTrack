@@ -58,23 +58,16 @@
                         </Entry>
                     <Entry x:Name="phone" Text="{Binding Phone, Mode=TwoWay}" Placeholder="Phone Number" Keyboard="Telephone">
                             <Entry.Behaviors>
-                                <xct:MultiValidationBehavior
-                     x:Name="MultiValidation"
-                     InvalidStyle="{StaticResource InvalidEntryStyle}"
-                     ValidStyle="{StaticResource ValidEntryStyle}"
-                     Flags="ValidateOnValueChanging"  >
 
-                                    <xct:TextValidationBehavior
+
+                            <xct:TextValidationBehavior
                      InvalidStyle="{StaticResource InvalidEntryStyle}"
                       ValidStyle="{StaticResource ValidEntryStyle}"
                      MinimumLength="12"
                      MaximumLength="12"
                      Flags="ValidateOnValueChanging"  
                      />
-
-                                </xct:MultiValidationBehavior>
-
-                                <xct:MaskedBehavior 
+                            <xct:MaskedBehavior 
                      Mask="AAA-AAA-AAAA" 
                      UnMaskedCharacter="A"
                     />

@@ -31,5 +31,10 @@ namespace NetTrack.Models
 
         [JsonProperty("primary")]
         public bool Primary { get; set; }
+
+        public bool Active { get; set; }
+
+  
+        public string UserId { get; set; }
     }
 }
