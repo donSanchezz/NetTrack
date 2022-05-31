@@ -3,6 +3,7 @@
 
   <style name="MainTheme" parent="MainTheme.Base">
 	  <item name="android:statusBarColor">#FA5959</item>
+  <item name="android:colorActivatedHighlight">#FFFFFF</item>
   </style>
 
 	<style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">

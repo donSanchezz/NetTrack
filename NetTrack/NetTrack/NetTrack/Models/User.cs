@@ -9,8 +9,7 @@ namespace NetTrack.Models
     public class User
     {
 
-        [JsonIgnore]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
        
         public string fname { get; set; }
@@ -27,5 +26,6 @@ namespace NetTrack.Models
         public string eye { get; set; }
 
         public List<Contact> contacts { get; set; }
+        public List<Contact> protectees { get; set; }
     }
 }
