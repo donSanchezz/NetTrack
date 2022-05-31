@@ -34,9 +34,10 @@ namespace NetTrack.ViewModels
 
         public Alert alert { get; set; }
 
-        public bool trackingActive { get; set; } = false; 
+        public bool trackingActive { get; set; } = false;
+        public bool alertActive { get; set; } = false;
 
-        
+
         public HomePageViewModel()
         {
             this.user = UserStore.GetUser();
@@ -59,7 +60,7 @@ namespace NetTrack.ViewModels
             RefreshCommand = new AsyncCommand(Refresh);
         }
 
-        
+
         private async void ItemTapped()
         {
 
@@ -69,25 +70,56 @@ namespace NetTrack.ViewModels
                 return true;
             });
 
-          
+
 
             trackingActive = true;
         }
-        
+
 
         private async Task<bool> FireAlert()
         {
-            return await Task.Run(async () => {
-                 var response = await _httpClient.GetAsync($"http://10.0.2.2:5212/alert?userId={SelectedProtectee.UserId}");
+            return await Task.Run(async () =>
+            {
+                var response = await _httpClient.GetAsync($"https://nettrackapi.azurewebsites.net/alert?userId={SelectedProtectee.UserId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
                     await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
-                    
+
                 }
 
                 var contentResponse = await response.Content.ReadAsStringAsync();
                 alert = JsonConvert.DeserializeObject<Alert>(contentResponse);
+                return true;
+            });
+        }
+
+        private async Task<bool> UpdateAlert()
+        {
+            return await Task.Run(async () =>
+            {
+
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                cts = new CancellationTokenSource();
+                var location = await Geolocation.GetLocationAsync(request, cts.Token);
+
+                Alert alert = new Alert();
+                alert.Latitude = location.Latitude;
+                alert.Longitude = location.Longitude;
+                alert.UserId = user.Id;
+
+                var jsonObject = JsonConvert.SerializeObject(alert);
+
+                StringContent content = new StringContent(jsonObject, UnicodeEncoding.UTF8, "application/x-www-form-urlencoded");
+
+                try
+                {
+                    var response = await _httpClient.PostAsync("https://nettrackapi.azurewebsites.net/updatealert", content);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
                 return true;
             });
         }
@@ -112,7 +144,8 @@ namespace NetTrack.ViewModels
                     }
 
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -142,7 +175,7 @@ namespace NetTrack.ViewModels
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -162,54 +195,88 @@ namespace NetTrack.ViewModels
         {
             try
             {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-                cts = new CancellationTokenSource();
-                var location = await Geolocation.GetLocationAsync(request, cts.Token);
-
-                if (location != null)
+                alertActive = !alertActive;
+                if (alertActive)
                 {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                    cts = new CancellationTokenSource();
+                    var location = await Geolocation.GetLocationAsync(request, cts.Token);
+
+                    if (location != null)
+                    {
+                        Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
 
 
 
+                        Alert alert = new Alert();
+                        alert.Latitude = location.Latitude;
+                        alert.Longitude = location.Longitude;
+                        alert.UserId = user.Id;
+
+                        var jsonObject = JsonConvert.SerializeObject(alert);
+
+                        StringContent content = new StringContent(jsonObject, UnicodeEncoding.UTF8, "application/x-www-form-urlencoded");
+
+
+                        var response = await _httpClient.PostAsync("https://nettrackapi.azurewebsites.net/alert", content);
+
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
+                            return;
+                        }
+
+                        var photo = await TakePhotoAsync();
+                        var ImgContent = new MultipartFormDataContent();
+                        ImgContent.Add(new StringContent("Id"), user.Id);
+                        ImgContent.Add(new StreamContent(await photo.OpenReadAsync()), "file", photo.FileName);
+
+                        var imgResponse = await _httpClient.PostAsync("https://nettrackapi.azurewebsites.net/image", ImgContent);
+
+                        if (!imgResponse.IsSuccessStatusCode)
+                        {
+                            await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
+                            return;
+                        }
+
+
+                        Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+                        {
+                            try
+                            {
+                                UpdateAlert();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                            return true;
+                        });
+
+                    }
+
+                }
+                else
+                {
                     Alert alert = new Alert();
-                    alert.Latitude = location.Latitude;
-                    alert.Longitude = location.Longitude;
                     alert.UserId = user.Id;
-
                     var jsonObject = JsonConvert.SerializeObject(alert);
 
                     StringContent content = new StringContent(jsonObject, UnicodeEncoding.UTF8, "application/x-www-form-urlencoded");
-
-
-                    var response = await _httpClient.PostAsync("http://10.0.2.2:5212/alert", content);
+                    var response = await _httpClient.PostAsync("https://nettrackapi.azurewebsites.net/stopalert", content);
 
                     if (!response.IsSuccessStatusCode)
                     {
                         await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
-                        return;
-                    }
-                    
-                    var photo = await TakePhotoAsync();
-                    var ImgContent = new MultipartFormDataContent();
-                    ImgContent.Add(new StringContent("Id"),user.Id);
-                    ImgContent.Add(new StreamContent(await photo.OpenReadAsync()), "file", photo.FileName);
 
-
-                    var imgResponse = await _httpClient.PostAsync("http://10.0.2.2:5212/image", ImgContent);
-
-                    if (!imgResponse.IsSuccessStatusCode)
-                    {
-                        await Shell.Current.DisplayAlert("Oops", "An error occured on our end, please try again", "OK");
-                        return;
                     }
                 }
             }
             catch (Exception)
             {
                 // Unable to get location
-            } 
-            
+            }
+
             // Unable to get location
         }
 
@@ -239,7 +306,7 @@ namespace NetTrack.ViewModels
         }
 
 
- }
+    }
 
 
 

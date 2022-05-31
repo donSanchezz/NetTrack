@@ -28,9 +28,9 @@ namespace NetTrack.Views
             NavigationPage.SetHasNavigationBar(this, false);
             this.BindingContext = homePageViewModel = new ViewModels.HomePageViewModel();
 
-           
             Device.StartTimer(TimeSpan.FromSeconds(10),  () =>
             {
+                activateLottie();
                 BeginTracking();
                 return true;
             });
@@ -95,5 +95,24 @@ namespace NetTrack.Views
         {
             base.OnPropertyChanged(propertyName);
         }
+        private void activateLottie()
+        {
+
+            var alertActive = (bool)this.BindingContext.GetType().GetProperty("alertActive").GetValue(this.BindingContext);
+
+            if (alertActive)
+            {
+                animationView.RepeatMode = Lottie.Forms.RepeatMode.Infinite;
+                animationView.PlayAnimation();
+            }
+            else
+            {
+               //animationView.PauseAnimation();
+            }
+
+        }
+
     }
+
+  
 }

@@ -30,7 +30,8 @@
                 AnimationSource="AssetOrBundle"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"
-                Command="{Binding AlertPressed}"
+               
+                Command="{Binding AlertPressed}"              
                 HeightRequest="10"
                 />
             <Label Text="Tap in case of an emergency"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  FontAttributes="Bold"></Label>

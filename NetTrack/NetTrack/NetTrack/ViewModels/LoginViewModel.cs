@@ -41,8 +41,8 @@ namespace NetTrack.ViewModels
                 StringContent content = new StringContent(jsonObject, UnicodeEncoding.UTF8, "application/json");
 
 
-                var response = await _httpClient.PostAsync("http://10.0.2.2:5212/login", content);
-                if (!response.IsSuccessStatusCode)
+                var response = await _httpClient.PostAsync("https://nettrackapi.azurewebsites.net/login", content);
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     await Application.Current.MainPage.DisplayAlert("Oops", "Invalid credentials", "OK");
                     return;

@@ -29,7 +29,7 @@
         <AbsoluteLayout>
             <Image Source="login_main.png" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
 
-            <Frame HasShadow="True"  CornerRadius="8" Padding="8" Margin="15, 15" AbsoluteLayout.LayoutBounds="0.5,0.8,0.9,0.36" AbsoluteLayout.LayoutFlags="All">
+            <Frame HasShadow="True"  CornerRadius="8" Padding="8" Margin="15, 15" AbsoluteLayout.LayoutBounds="0.5,0.74,0.9,0.39" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout>
                     <Label Text="Email" FontSize="Subtitle" HorizontalOptions="Start" VerticalOptions="Center" Margin="2,0,0,0" />
                     <Entry x:Name="fname" Text="{Binding details.email}" WidthRequest="190" HeightRequest="40" HorizontalTextAlignment="Start">

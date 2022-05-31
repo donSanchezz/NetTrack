@@ -96,7 +96,7 @@ namespace NetTrack.ViewModels
                 StringContent content = new StringContent(jsonObject, UnicodeEncoding.UTF8, "application/json");
 
 
-                var response = await _httpClient.PostAsync("http://10.0.2.2:5212/register", content);
+                var response = await _httpClient.PostAsync("https://nettrackapi.azurewebsites.net/register", content);
                 var contentResponse = await response.Content.ReadAsStringAsync();
                 var RegisteredUser = JsonConvert.DeserializeObject<User>(contentResponse);
                 await UserStore.AddUser(RegisteredUser);

@@ -6,7 +6,9 @@ using Android.Runtime;
 using Android.OS;
 using System.Net.Http;
 using Android;
-
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 namespace NetTrack.Droid
 {
     [Activity(Label = "NetTrack", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
@@ -40,7 +42,8 @@ namespace NetTrack.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            AppCenter.Start("3e87186a-039a-4692-9f78-47b011780a7a",
+                   typeof(Analytics), typeof(Crashes));
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsMaps.Init(this, savedInstanceState);

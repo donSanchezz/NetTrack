@@ -36,5 +36,7 @@ namespace NetTrack.Models
 
   
         public string UserId { get; set; }
+
+        public List<string> images { get; set; } = new List<string>();
     }
 }
